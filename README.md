@@ -273,9 +273,9 @@ Task (Represents a single item)
 
 Entity Relationships
 
-User ────┐
-         ├── Organization ──── Task
-User ────┘
+    User ────┐
+             ├── Organization ──── Task
+    User ────┘
 
 
 # Access Control Implementation (RBAC)
