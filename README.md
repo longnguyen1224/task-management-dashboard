@@ -86,38 +86,38 @@ UI available at: http://localhost:4200
 
 # Architecture Overview
 
-NX Monorepo Structure
-├── api/                     # Backend (NestJS)
-│   └── src/
-│       ├── app/
-│       │   ├── audit/       # Audit logging and tracking
-│       │   ├── auth/        # Authentication & JWT logic
-│       │   ├── common/      # Shared guards, decorators, enums
-│       │   ├── organizations/ # Organization hierarchy & scope logic
-│       │   ├── seed/        # Database seed data
-│       │   ├── task/        # Task domain (CRUD, ordering, status)
-│       │   └── users/       # User management and roles
-│       │
-│       ├── app.controller.ts
-│       ├── app.module.ts
-│       ├── app.service.ts
-│       └── main.ts
-│
-├── dashboard/               # Frontend (Angular)
-│   └── src/
-│       ├── app/
-│       │   ├── auth/        # Login UI & auth handling
-│       │   ├── guard/       # Route guards (auth / role-based)
-│       │   ├── tasks/       # Task dashboard (Kanban UI)
-│       │   └── app.routes.ts
-│       │
-│       ├── app.config.ts
-│       ├── app.component.ts
-│       ├── main.ts
-│
-├── nx.json
-├── package.json
-└── tsconfig.base.json
+    NX Monorepo Structure
+    ├── api/                     # Backend (NestJS)
+    │   └── src/
+    │       ├── app/
+    │       │   ├── audit/       # Audit logging and tracking
+    │       │   ├── auth/        # Authentication & JWT logic
+    │       │   ├── common/      # Shared guards, decorators, enums
+    │       │   ├── organizations/ # Organization hierarchy & scope logic
+    │       │   ├── seed/        # Database seed data
+    │       │   ├── task/        # Task domain (CRUD, ordering, status)
+    │       │   └── users/       # User management and roles
+    │       │
+    │       ├── app.controller.ts
+    │       ├── app.module.ts
+    │       ├── app.service.ts
+    │       └── main.ts
+    │
+    ├── dashboard/               # Frontend (Angular)
+    │   └── src/
+    │       ├── app/
+    │       │   ├── auth/        # Login UI & auth handling
+    │       │   ├── guard/       # Route guards (auth / role-based)
+    │       │   ├── tasks/       # Task dashboard (Kanban UI)
+    │       │   └── app.routes.ts
+    │       │
+    │       ├── app.config.ts
+    │       ├── app.component.ts
+    │       ├── main.ts
+    │
+    ├── nx.json
+    ├── package.json
+    └── tsconfig.base.json
 
 
 Explaination: 
