@@ -52,9 +52,8 @@ Tooling
     - ESLint / Prettier
 
 # Setup Instructions
-
-- git clone  <your-repo-url>
-- cd   <repo-root>
+Git clone  <your-repo-url>
+cd  <repo-root>
 Install Dependencies:
 
     -  From the repository root: npm install
