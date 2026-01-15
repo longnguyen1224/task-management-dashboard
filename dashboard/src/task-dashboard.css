@@ -1,0 +1,288 @@
+/* =====================
+   GLOBAL FEEL
+===================== */
+body {
+  background: linear-gradient(180deg, #f8fafc, #eef2f7);
+}
+
+/* =====================
+   SIDEBAR
+===================== */
+aside {
+  border: 1px solid #e5e7eb;
+}
+
+.sidebar-btn {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.sidebar-btn:hover {
+  background: linear-gradient(90deg, #eff6ff, #e0e7ff);
+  color: #1d4ed8;
+}
+
+.sidebar-btn:active {
+  transform: scale(0.97);
+}
+
+/* =====================
+   HEADER
+===================== */
+h1 {
+  letter-spacing: -0.02em;
+}
+
+/* =====================
+   INPUTS
+===================== */
+.input {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* =====================
+   PRIMARY BUTTON
+===================== */
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  font-weight: 600;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.35);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =====================
+   TASK CARD
+===================== */
+[cdkDrag] {
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+[cdkDrag]:hover {
+  border-color: #c7d2fe;
+}
+
+/* subtle left accent */
+[cdkDrag]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #60a5fa, #2563eb);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+[cdkDrag]:hover::before {
+  opacity: 1;
+}
+
+/* =====================
+   DRAG HANDLE
+===================== */
+[cdkDragHandle] {
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+[cdkDrag]:hover [cdkDragHandle] {
+  opacity: 1;
+}
+
+/* =====================
+   CHECKBOX
+===================== */
+input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+}
+
+/* =====================
+   TASK TEXT
+===================== */
+.line-through {
+  color: #9ca3af;
+}
+
+/* =====================
+   MENU (⋮)
+===================== */
+.menu-item {
+  font-size: 0.85rem;
+  transition: background 0.15s ease;
+}
+
+.menu-item:hover {
+  background: #f3f4f6;
+}
+
+/* =====================
+   USER MENU
+===================== */
+.relative > .absolute {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* =====================
+   MOBILE IMPROVEMENTS
+===================== */
+@media (max-width: 768px) {
+  aside {
+    display: none;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+
+  input,
+  select {
+    font-size: 0.9rem;
+  }
+}
+
+/* =====================
+   SMOOTH ANIMATIONS
+===================== */
+* {
+  scroll-behavior: smooth;
+}
+
+/* TASK CARD */
+.task-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+/* DRAG HANDLE */
+.drag-handle {
+  cursor: grab;
+  font-size: 18px;
+  opacity: 0.35;
+  padding-top: 4px;
+}
+
+.task-card:hover .drag-handle {
+  opacity: 1;
+}
+
+/* CHECKBOX */
+.task-checkbox {
+  margin-top: 6px;
+  accent-color: #2563eb;
+}
+
+/* BODY */
+.task-body {
+  flex: 1;
+  cursor: pointer;
+}
+
+.task-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.task-title.done {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.task-desc {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+/* CATEGORY TAG */
+.task-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+/* MENU */
+.task-menu-wrapper {
+  position: relative;
+}
+
+.menu-btn {
+  color: #6b7280;
+  padding: 4px;
+}
+
+.menu-btn:hover {
+  color: #111827;
+}
+
+.task-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  width: 120px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.task-menu button {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.task-menu button:hover {
+  background: #f3f4f6;
+}
+
+.task-menu .danger {
+  color: #dc2626;
+}
+

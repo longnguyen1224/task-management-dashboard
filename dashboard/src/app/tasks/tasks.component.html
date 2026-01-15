@@ -1,0 +1,274 @@
+<!-- ================= PAGE WRAPPER ================= -->
+<div class="min-h-screen bg-slate-100">
+  <h1 class="text-2xl font-bold text-gray-800 px-6 pt-6">
+    Task Dashboard
+  </h1>
+
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 p-4 md:p-8">
+
+    <!-- ================= SIDEBAR (DESKTOP) ================= -->
+    <aside
+      class="hidden md:block w-64 bg-white rounded-xl shadow-sm p-5 space-y-6"
+    >
+
+      <!-- Categories -->
+      <section>
+        <h3 class="sidebar-title">Categories</h3>
+        <div class="space-y-1">
+          <button class="sidebar-btn" (click)="setCategory('All')">All</button>
+          <button class="sidebar-btn" (click)="setCategory('Work')">Work</button>
+          <button class="sidebar-btn" (click)="setCategory('Personal')">Personal</button>
+          <button class="sidebar-btn" (click)="setCategory('School')">School</button>
+        </div>
+      </section>
+
+      <!-- Filters -->
+      <section>
+        <h3 class="sidebar-title">Filters</h3>
+        <div class="space-y-1">
+          <button class="sidebar-btn" (click)="setFilter('All')">All</button>
+          <button class="sidebar-btn" (click)="setFilter('Todo')">To Do</button>
+          <button class="sidebar-btn" (click)="setFilter('InProgress')">In Progress</button>
+          <button class="sidebar-btn" (click)="setFilter('Review')">Review</button>
+          <button class="sidebar-btn" (click)="setFilter('Done')">Done</button>
+        </div>
+      </section>
+
+      <!-- Sort -->
+      <section>
+        <h3 class="sidebar-title">Sort</h3>
+        <div class="space-y-1">
+          <button
+            class="sidebar-btn"
+            (click)="setSort('Alphabetical')"
+          >
+            Alphabetical
+          </button>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-1 space-y-6">
+
+      <!-- ================= HEADER ================= -->
+      <section
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
+
+        <!-- Search -->
+        <input
+          class="input max-w-sm"
+          placeholder="Search tasks..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+        />
+
+        <!-- User Menu -->
+        <div class="relative">
+          <button
+            class="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm"
+            (click)="userMenuOpen = !userMenuOpen"
+          >
+            👤 <span class="hidden md:inline">User</span>
+          </button>
+
+          <div
+            *ngIf="userMenuOpen"
+            class="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow z-20"
+          >
+            <button class="menu-item">Profile</button>
+            <button class="menu-item" (click)="toggleTheme()">Toggle Theme</button>
+            <button class="menu-item text-red-600" (click)="logout()">Logout</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CREATE TASK ================= -->
+      <section class="bg-white rounded-xl shadow-sm p-5">
+        <h2 class="font-semibold text-gray-700 mb-4">
+          Create Task
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <input
+            class="input"
+            placeholder="Task title"
+            [(ngModel)]="title"
+          />
+
+          <input
+            class="input"
+            placeholder="Description"
+            [(ngModel)]="description"
+          />
+
+          <select class="input" [(ngModel)]="category">
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="School">School</option>
+          </select>
+
+          <button
+            class="btn-primary"
+            (click)="createTask()"
+            [disabled]="creating"
+          >
+            {{ creating ? 'Adding...' : 'Add Task' }}
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= KANBAN BOARD ================= -->
+      <section class="kanban-board">
+
+        <div
+          *ngFor="let col of workflowStatuses"
+          class="kanban-column"
+          cdkDropList
+          [id]="col.key"
+          [cdkDropListData]="tasksByStatus[col.key]"
+          [cdkDropListConnectedTo]="['Todo','InProgress','Review','Done']"
+          (cdkDropListDropped)="dropInColumn($event, col.key)"
+        >
+
+          <!-- Column Header -->
+          <h3 class="column-title">
+            {{ col.label }}
+          </h3>
+
+          <!-- Inline Add Task -->
+          <div
+            *ngIf="addingInStatus === col.key"
+            class="add-task-inline"
+          >
+            <input
+              class="input mb-2"
+              placeholder="Task title"
+              [(ngModel)]="title"
+            />
+
+            <textarea
+              class="input mb-2"
+              placeholder="Description"
+              [(ngModel)]="description"
+            ></textarea>
+
+            <div class="flex gap-2">
+              <button class="btn-primary" (click)="createTask()">
+                Add
+              </button>
+              <button
+                class="btn-secondary"
+                (click)="addingInStatus = null"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <!-- ================= TASK CARDS ================= -->
+          <div
+            *ngFor="let task of getTasksByStatus(col.key); trackBy: trackById"
+            cdkDrag
+            [cdkDragData]="task"
+            class="task-card"
+          >
+
+            <!-- Drag Handle -->
+            <div cdkDragHandle class="drag-handle">
+              ☰
+            </div>
+
+            <!-- Checkbox -->
+            <input
+              type="checkbox"
+              class="task-checkbox"
+              [checked]="task.status === 'Done'"
+              (change)="markComplete(task)"
+            />
+
+            <!-- Task Content -->
+            <div
+              class="task-body"
+              *ngIf="editingId !== task.id"
+            >
+              <h3
+                class="task-title"
+                [class.done]="task.status === 'Done'"
+              >
+                {{ task.title }}
+              </h3>
+
+              <p class="task-desc">
+                {{ task.description || 'No description' }}
+              </p>
+
+              <span class="task-tag">
+                {{ task.category }}
+              </span>
+            </div>
+
+            <!-- Edit Mode -->
+            <div
+              class="task-body"
+              *ngIf="editingId === task.id"
+            >
+              <input class="input mb-2" [(ngModel)]="editTitle" />
+              <textarea class="input mb-2" [(ngModel)]="editDescription"></textarea>
+
+              <select class="input mb-2" [(ngModel)]="editCategory">
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+                <option value="School">School</option>
+              </select>
+
+              <div class="flex gap-2">
+                <button class="btn-primary" (click)="saveEdit(task)">
+                  Save
+                </button>
+                <button class="btn-secondary" (click)="cancelEdit()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Task Menu -->
+            <div class="task-menu-wrapper">
+              <button
+                class="menu-btn"
+                (click)="toggleMenu(task); $event.stopPropagation()"
+              >
+                ⋮
+              </button>
+
+              <div
+                *ngIf="openMenuTask === task"
+                class="task-menu"
+              >
+                <button
+                  *ngIf="canEdit"
+                  class="menu-item"
+                  (click)="startEdit(task); toggleMenu(null)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  *ngIf="canEdit"
+                  class="menu-item danger"
+                  (click)="deleteTask(task.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>

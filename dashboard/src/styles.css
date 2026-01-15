@@ -1,0 +1,13 @@
+@import './task-dashboard.css';
+.dark body {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.dark .bg-white {
+  background-color: #1e293b !important;
+}
+
+.dark .border {
+  border-color: #334155 !important;
+}
