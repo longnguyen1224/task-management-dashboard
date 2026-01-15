@@ -53,8 +53,8 @@ Tooling
 
 # Setup Instructions
 
-- git clone <your-repo-url>
-- cd <repo-root>
+- git clone  <your-repo-url>
+- cd   <repo-root>
 Install Dependencies:
 
     -  From the repository root: npm install
